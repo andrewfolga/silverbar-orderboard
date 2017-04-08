@@ -73,7 +73,7 @@ public class OrderBoardManagerTest {
         Order order1 = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
         Order order2 = new Order(1L, new BigDecimal(7.0), new BigDecimal(307), BUY);
         Map<String, Order> orders = Collections.unmodifiableMap(
-                Stream.of(entry(order1.computeKey(), order1), entry(order2.computeKey(), order2)).collect(entriesToMap()));
+                Stream.of(entry("S1", order1), entry("S2", order2)).collect(entriesToMap()));
         Mockito.when(orderBoardRepository.getOrders()).thenReturn(orders);
         String ordersSummary = "SELL BOARD:\n9.0kg for £306\nBUY BOARD:";
         Mockito.when(orderBoardSummaryPrinter.print(orders)).thenReturn(ordersSummary);

@@ -17,20 +17,28 @@ public class InMemoryOrderBoardRepository implements OrderBoardRepository {
 
     @Override
     public String addOrder(Order order) {
-        String key = order.computeKey();
+        String key = computeKey(order);
         liveOrderBoard.put(key, order);
         return key;
     }
 
     @Override
     public Order removeOrder(Order order) {
-        String key = order.computeKey();
+        String key = computeKey(order);
         return liveOrderBoard.remove(key);
     }
 
     @Override
     public Map<String, Order> getOrders() {
         return Collections.unmodifiableMap(liveOrderBoard);
+    }
+
+    private String computeKey(Order order) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(order.getOrderType().toString().charAt(0));
+        sb.append(order.getPrice());
+        sb.append(order.getUserId());
+        return sb.toString();
     }
 
 }

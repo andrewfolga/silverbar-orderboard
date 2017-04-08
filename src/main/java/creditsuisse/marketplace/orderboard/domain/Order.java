@@ -35,14 +35,6 @@ public class Order {
         return orderType;
     }
 
-    public String computeKey() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.orderType.toString().charAt(0));
-        sb.append(this.price);
-        sb.append(this.userId);
-        return sb.toString();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

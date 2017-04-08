@@ -29,7 +29,7 @@ public class OrderBoardSummaryPrinterTest {
         Order order2 = new Order(3L, new BigDecimal(1.5), new BigDecimal(307), SELL);
         Order order3 = new Order(2L, new BigDecimal(4.5), new BigDecimal(309), SELL);
         Map<String, Order> orders = Collections.unmodifiableMap(
-                Stream.of(entry(order.computeKey(), order), entry(order2.computeKey(), order2), entry(order3.computeKey(), order3)).collect(entriesToMap()));
+                Stream.of(entry("S1", order), entry("S2", order2), entry("S3", order3)).collect(entriesToMap()));
 
         String result = orderBoardSummaryPrinter.print(orders);
 
@@ -48,7 +48,7 @@ public class OrderBoardSummaryPrinterTest {
         Order order2 = new Order(3L, new BigDecimal(1.5), new BigDecimal(307), BUY);
         Order order3 = new Order(2L, new BigDecimal(4.5), new BigDecimal(309), BUY);
         Map<String, Order> orders = Collections.unmodifiableMap(
-                Stream.of(entry(order.computeKey(), order), entry(order2.computeKey(), order2), entry(order3.computeKey(), order3)).collect(entriesToMap()));
+                Stream.of(entry("B1", order), entry("B2", order2), entry("B3", order3)).collect(entriesToMap()));
 
         String result = orderBoardSummaryPrinter.print(orders);
 
@@ -67,7 +67,7 @@ public class OrderBoardSummaryPrinterTest {
         Order buyOrder = new Order(1L, new BigDecimal(9.5), new BigDecimal(309), BUY);
         Order buyOrder2 = new Order(2L, new BigDecimal(2), new BigDecimal(309), BUY);
         Map<String, Order> orders = Collections.unmodifiableMap(
-                Stream.of(entry(sellOrder.computeKey(), sellOrder), entry(sellOrder2.computeKey(), sellOrder2), entry(buyOrder.computeKey(), buyOrder), entry(buyOrder2.computeKey(), buyOrder2)).collect(entriesToMap()));
+                Stream.of(entry("S1", sellOrder), entry("S2", sellOrder2), entry("B1", buyOrder), entry("B2", buyOrder2)).collect(entriesToMap()));
 
         String result = orderBoardSummaryPrinter.print(orders);
 

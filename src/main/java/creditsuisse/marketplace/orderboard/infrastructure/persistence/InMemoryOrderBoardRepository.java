@@ -30,7 +30,7 @@ public class InMemoryOrderBoardRepository implements OrderBoardRepository {
 
     @Override
     public Map<String, Order> getOrders() {
-        return Collections.unmodifiableMap(liveOrderBoard);
+        return liveOrderBoard;
     }
 
     private String computeKey(Order order) {

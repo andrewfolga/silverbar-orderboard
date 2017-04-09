@@ -23,7 +23,7 @@ public class OrderBoardSummaryPrinterTest {
     private OrderBoardSummaryPrinter orderBoardSummaryPrinter = new OrderBoardSummaryPrinter();
 
     @Test
-    public void shouldPrintSellOrdersInCorrectSortOrder() throws Exception {
+    public void shouldPrintSellOrdersInCorrectPriceOrder() throws Exception {
 
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(310), SELL);
         Order order2 = new Order(3L, new BigDecimal(1.5), new BigDecimal(307), SELL);
@@ -42,7 +42,7 @@ public class OrderBoardSummaryPrinterTest {
     }
 
     @Test
-    public void shouldPrintSellOrdersInCorrectBuyOrder() throws Exception {
+    public void shouldPrintBuyOrdersInCorrectPriceOrder() throws Exception {
 
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(310), BUY);
         Order order2 = new Order(3L, new BigDecimal(1.5), new BigDecimal(307), BUY);
@@ -63,7 +63,7 @@ public class OrderBoardSummaryPrinterTest {
     @Test
     public void shouldCombineSamePriceOrders() throws Exception {
         Order sellOrder = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
-        Order sellOrder2 = new Order(2L, new BigDecimal(2), new BigDecimal(306), SELL);
+        Order sellOrder2 = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
         Order buyOrder = new Order(1L, new BigDecimal(9.5), new BigDecimal(309), BUY);
         Order buyOrder2 = new Order(2L, new BigDecimal(2), new BigDecimal(309), BUY);
         Map<String, Order> orders = Collections.unmodifiableMap(
@@ -73,7 +73,7 @@ public class OrderBoardSummaryPrinterTest {
 
         assertThat(result, equalTo("" +
                 "SELL BOARD:\n" +
-                "5.5kg for £306\n" +
+                "7.0kg for £306\n" +
                 "BUY BOARD:\n" +
                 "11.5kg for £309"));
     }

@@ -2,8 +2,9 @@ package creditsuisse.marketplace.orderboard.infrastructure.persistence;
 
 import creditsuisse.marketplace.orderboard.domain.Order;
 import creditsuisse.marketplace.orderboard.domain.OrderBoardRepository;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -37,6 +38,7 @@ public class InMemoryOrderBoardRepository implements OrderBoardRepository {
         sb.append(order.getOrderType().toString().charAt(0));
         sb.append(order.getPrice());
         sb.append(order.getUserId());
+        sb.append(new DateTime().toDateTime(DateTimeZone.UTC));
         return sb.toString();
     }
 

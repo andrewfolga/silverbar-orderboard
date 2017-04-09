@@ -34,6 +34,19 @@ public class InMemoryOrderBoardRepositoryTest {
         assertThat(orders, hasEntry(sellOrderKey, sellOrder));
     }
 
+    @Test
+    public void shouldRegisterSameOrderAgain() throws Exception {
+        Order buyOrder = new Order(1l, new BigDecimal(6.5), new BigDecimal(306), BUY);
+        Order sameBuyOrder = new Order(1l, new BigDecimal(6.5), new BigDecimal(306), BUY);
+        String buyOrderKey = inMemoryOrderBoardRepository.addOrder(buyOrder);
+        String sameBuyOrderKey = inMemoryOrderBoardRepository.addOrder(buyOrder);
+
+        Map<String, Order> orders = inMemoryOrderBoardRepository.getOrders();
+
+        assertThat(orders, hasEntry(buyOrderKey, buyOrder));
+        assertThat(orders, hasEntry(sameBuyOrderKey, sameBuyOrder));
+    }
+
 
     @Test
     public void shouldRemoveAddedOrder() throws Exception {

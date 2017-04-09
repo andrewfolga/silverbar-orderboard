@@ -38,8 +38,8 @@ public class InMemoryOrderBoardRepositoryTest {
     @Test
     public void shouldRemoveAddedOrder() throws Exception {
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
-        inMemoryOrderBoardRepository.addOrder(order);
-        Order removedOrder = inMemoryOrderBoardRepository.removeOrder(order);
+        String key = inMemoryOrderBoardRepository.addOrder(order);
+        Order removedOrder = inMemoryOrderBoardRepository.removeOrder(key);
 
         Map<String, Order> orders = inMemoryOrderBoardRepository.getOrders();
 
@@ -49,8 +49,7 @@ public class InMemoryOrderBoardRepositoryTest {
 
     @Test
     public void shouldFailSafeIfNoOrderToRemove() throws Exception {
-        Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
-        Order removedOrder = inMemoryOrderBoardRepository.removeOrder(order);
+        Order removedOrder = inMemoryOrderBoardRepository.removeOrder("notExistentKey");
 
         Map<String, Order> orders = inMemoryOrderBoardRepository.getOrders();
 

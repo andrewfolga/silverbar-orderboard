@@ -23,8 +23,7 @@ public class InMemoryOrderBoardRepository implements OrderBoardRepository {
     }
 
     @Override
-    public Order removeOrder(Order order) {
-        String key = computeKey(order);
+    public Order removeOrder(String key) {
         return liveOrderBoard.remove(key);
     }
 

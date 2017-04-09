@@ -9,6 +9,6 @@ import java.util.concurrent.ConcurrentMap;
 public interface OrderBoardRepository {
 
     String addOrder(Order order);
-    Order removeOrder(Order order);
+    Order removeOrder(String orderKey);
     Map<String, Order> getOrders();
 }

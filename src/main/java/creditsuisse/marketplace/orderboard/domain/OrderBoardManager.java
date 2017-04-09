@@ -20,8 +20,8 @@ public class OrderBoardManager {
         return orderBoardRepository.addOrder(order);
     }
 
-    public Order cancelOrder(Order order) {
-        return orderBoardRepository.removeOrder(order);
+    public Order cancelOrder(String key) {
+        return orderBoardRepository.removeOrder(key);
     }
 
     public String getOrderBoardSummary() {

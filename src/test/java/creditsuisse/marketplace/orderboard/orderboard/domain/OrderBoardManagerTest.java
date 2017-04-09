@@ -60,12 +60,12 @@ public class OrderBoardManagerTest {
     @Test
     public void shouldCancelOrder() throws Exception {
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
-        Mockito.when(orderBoardRepository.removeOrder(order)).thenReturn(order);
+        Mockito.when(orderBoardRepository.removeOrder("key")).thenReturn(order);
 
-        Order removedOrder = orderBoardManager.cancelOrder(order);
+        Order removedOrder = orderBoardManager.cancelOrder("key");
 
         assertThat(removedOrder, is(equalTo(order)));
-        verify(orderBoardRepository).removeOrder(order);
+        verify(orderBoardRepository).removeOrder("key");
     }
 
     @Test

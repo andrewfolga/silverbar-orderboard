@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 import static creditsuisse.marketplace.orderboard.domain.OrderType.BUY;
 import static creditsuisse.marketplace.orderboard.domain.OrderType.SELL;
@@ -20,6 +21,11 @@ import static org.junit.Assert.assertThat;
 public class InMemoryOrderBoardRepositoryTest {
 
     private InMemoryOrderBoardRepository inMemoryOrderBoardRepository = new InMemoryOrderBoardRepository();
+
+    @Test(expected = NullPointerException.class)
+    public void shouldFailFastIfAddOrderWithNoOrderProvided() throws Exception {
+        inMemoryOrderBoardRepository.addOrder(null);
+    }
 
     @Test
     public void shouldRegisterNewOrder() throws Exception {
@@ -48,25 +54,30 @@ public class InMemoryOrderBoardRepositoryTest {
     }
 
 
+    @Test(expected = NullPointerException.class)
+    public void shouldFailFastIfRemoveOrderWithNoOrderKeyProvided() throws Exception {
+        inMemoryOrderBoardRepository.removeOrder(null);
+    }
+
     @Test
     public void shouldRemoveAddedOrder() throws Exception {
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
         String key = inMemoryOrderBoardRepository.addOrder(order);
-        Order removedOrder = inMemoryOrderBoardRepository.removeOrder(key);
+        Optional<Order> removedOrder = inMemoryOrderBoardRepository.removeOrder(key);
 
         Map<String, Order> orders = inMemoryOrderBoardRepository.getOrders();
 
-        assertThat(removedOrder, is(equalTo(order)));
+        assertThat(removedOrder.get(), is(equalTo(order)));
         assertThat(orders, is(emptyMap()));
     }
 
     @Test
     public void shouldFailSafeIfNoOrderToRemove() throws Exception {
-        Order removedOrder = inMemoryOrderBoardRepository.removeOrder("notExistentKey");
+        Optional<Order> removedOrder = inMemoryOrderBoardRepository.removeOrder("notExistentKey");
 
         Map<String, Order> orders = inMemoryOrderBoardRepository.getOrders();
 
-        assertThat(removedOrder, nullValue());
+        assertThat(removedOrder.isPresent(), is(not(true)));
         assertThat(orders, is(emptyMap()));
     }
 }

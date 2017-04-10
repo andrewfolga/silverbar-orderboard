@@ -2,6 +2,7 @@ package creditsuisse.marketplace.orderboard.domain;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by andrzejfolga on 06/04/2017.
@@ -20,7 +21,7 @@ public class OrderBoardManager {
         return orderBoardRepository.addOrder(order);
     }
 
-    public Order cancelOrder(String key) {
+    public Optional<Order> cancelOrder(String key) {
         return orderBoardRepository.removeOrder(key);
     }
 

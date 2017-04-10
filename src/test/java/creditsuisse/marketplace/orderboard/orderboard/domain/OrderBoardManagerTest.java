@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,10 +24,12 @@ import static creditsuisse.marketplace.orderboard.TestHelpers.entriesToMap;
 import static creditsuisse.marketplace.orderboard.TestHelpers.entry;
 import static creditsuisse.marketplace.orderboard.domain.OrderType.BUY;
 import static creditsuisse.marketplace.orderboard.domain.OrderType.SELL;
+import static java.util.Optional.of;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by andrzejfolga on 06/04/2017.
@@ -49,7 +52,7 @@ public class OrderBoardManagerTest {
     @Test
     public void shouldRegisterOrder() throws Exception {
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
-        Mockito.when(orderBoardRepository.addOrder(order)).thenReturn("orderKey");
+        when(orderBoardRepository.addOrder(order)).thenReturn("orderKey");
 
         String key = orderBoardManager.registerOrder(order);
 
@@ -60,11 +63,11 @@ public class OrderBoardManagerTest {
     @Test
     public void shouldCancelOrder() throws Exception {
         Order order = new Order(1L, new BigDecimal(3.5), new BigDecimal(306), SELL);
-        Mockito.when(orderBoardRepository.removeOrder("key")).thenReturn(order);
+        when(orderBoardRepository.removeOrder("key")).thenReturn(of(order));
 
-        Order removedOrder = orderBoardManager.cancelOrder("key");
+        Optional<Order> cancelledOrder = orderBoardManager.cancelOrder("key");
 
-        assertThat(removedOrder, is(equalTo(order)));
+        assertThat(cancelledOrder.get(), is(equalTo(order)));
         verify(orderBoardRepository).removeOrder("key");
     }
 
@@ -74,9 +77,9 @@ public class OrderBoardManagerTest {
         Order order2 = new Order(1L, new BigDecimal(7.0), new BigDecimal(307), BUY);
         Map<String, Order> orders = Collections.unmodifiableMap(
                 Stream.of(entry("S1", order1), entry("S2", order2)).collect(entriesToMap()));
-        Mockito.when(orderBoardRepository.getOrders()).thenReturn(orders);
+        when(orderBoardRepository.getOrders()).thenReturn(orders);
         String ordersSummary = "SELL BOARD:\n9.0kg for £306\nBUY BOARD:";
-        Mockito.when(orderBoardSummaryPrinter.print(orders)).thenReturn(ordersSummary);
+        when(orderBoardSummaryPrinter.print(orders)).thenReturn(ordersSummary);
 
         String orderBoardSummary = orderBoardManager.getOrderBoardSummary();
 

@@ -1,6 +1,7 @@
 package creditsuisse.marketplace.orderboard.domain;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
 
 /**
@@ -9,6 +10,6 @@ import java.util.concurrent.ConcurrentMap;
 public interface OrderBoardRepository {
 
     String addOrder(Order order);
-    Order removeOrder(String orderKey);
+    Optional<Order> removeOrder(String orderKey);
     Map<String, Order> getOrders();
 }

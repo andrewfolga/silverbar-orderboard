@@ -20,10 +20,10 @@ public class OrderBoardSummaryPrinter {
         sellOrderBook.add("SELL BOARD:");
         sellOrderBook.addAll(orderBoard.
                 entrySet().
-                stream().
+                parallelStream().
                 filter(e -> e.getKey().charAt(0) == 'S').
                 map(Map.Entry::getValue).
-                collect(groupingBy(Order::getPrice, reducing(BigDecimal.ZERO, Order::getQuantity, BigDecimal::add))).
+                collect(groupingByConcurrent(Order::getPrice, reducing(BigDecimal.ZERO, Order::getQuantity, BigDecimal::add))).
                 entrySet().
                 stream().
                 sorted(Map.Entry.comparingByKey(Comparator.naturalOrder())).
@@ -34,10 +34,10 @@ public class OrderBoardSummaryPrinter {
         buyOrderBook.add("BUY BOARD:");
         buyOrderBook.addAll(orderBoard.
                 entrySet().
-                stream().
+                parallelStream().
                 filter(e -> e.getKey().charAt(0) == 'B').
                 map(Map.Entry::getValue).
-                collect(groupingBy(Order::getPrice, reducing(BigDecimal.ZERO, Order::getQuantity, BigDecimal::add))).
+                collect(groupingByConcurrent(Order::getPrice, reducing(BigDecimal.ZERO, Order::getQuantity, BigDecimal::add))).
                 entrySet().
                 stream().
                 sorted(Map.Entry.comparingByKey(Comparator.reverseOrder())).
